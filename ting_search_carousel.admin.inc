@@ -45,7 +45,7 @@ function ting_search_carousel_settings_admin_form($form, &$form_state) {
     '#title' => t('Item limit'),
     '#options' => array_combine(range(6, 24, 6), range(6, 24, 6)),
     '#description' => t('The number of items to be returned in search result.'),
-    '#default_value' => variable_get('ting_search_carousel_item_limit', 50),
+    '#default_value' => variable_get('ting_search_carousel_item_limit', 12),
   );
 
   $form['ting_search_carousel_settings']['ting_search_carousel_description_toggle'] = array(
@@ -54,6 +54,24 @@ function ting_search_carousel_settings_admin_form($form, &$form_state) {
     '#default_value' => variable_get('ting_search_carousel_description_toggle', 0),
     '#required' => FALSE,
     '#description' => t('Toggle whether descriptions of the various searches are displayed or not.'),
+  );
+
+  $form['ting_search_carousel_settings']['ting_search_carousel_item_sorting'] = array(
+    '#type' => 'select',
+    '#title' => t('Sorting'),
+    '#options' => array(
+      '' => t('- None -'),
+      'title_ascending' => t('Title (Ascending)'),
+      'title_descending' => t('Title (Descending)'),
+      'creator_ascending' => t('Creator (Ascending)'),
+      'creator_descending' => t('Creator (Descending)'),
+      'date_ascending' => t('Date (Ascending)'),
+      'date_descending' => t('Date (Descending)'),
+      'acquisitionDate_ascending' => t('Acquisition date (Ascending)'),
+      'acquisitionDate_descending' => t('Acquisition date (Descending)'),
+    ),
+    '#default_value' => variable_get('ting_search_carousel_item_sorting', ''),
+    '#description' => t('If not set, defaults to Ranking'),
   );
 
   return system_settings_form($form);
@@ -144,24 +162,6 @@ function ting_search_carousel_admin_form($form, &$form_state) {
   $form['ting_search_carousel']['num_searches'] = array(
     '#type' => 'hidden',
     '#value' => $searches_num,
-  );
-
-  $form['ting_search_carousel']['ting_search_carousel_item_sorting'] = array(
-    '#type' => 'select',
-    '#title' => t('Sorting'),
-    '#options' => array(
-      '' => t('- None -'),
-      'title_ascending' => t('Title (Ascending)'),
-      'title_descending' => t('Title (Descending)'),
-      'creator_ascending' => t('Creator (Ascending)'),
-      'creator_descending' => t('Creator (Descending)'),
-      'date_ascending' => t('Date (Ascending)'),
-      'date_descending' => t('Date (Descending)'),
-      'acquisitionDate_ascending' => t('Acquisition date (Ascending)'),
-      'acquisitionDate_descending' => t('Acquisition date (Descending)'),
-    ),
-    '#default_value' => variable_get('ting_search_carousel_item_sorting', ''),
-    '#description' => t('If not set, defaults to Ranking'),
   );
 
   // Ajaxified button for new fields.
