@@ -10,9 +10,10 @@
 function ting_search_carousel_menu() {
   $items = array();
 
-  $items['ting_search_carousel/results/ajax'] = array(
+  $items['ting_search_carousel/results/ajax/%query'] = array(
     'title' => 'Show search carousel results',
     'page callback' => 'ting_search_carousel_result',
+    'page arguments' => array(3),
     'access arguments' => array('access content'),
     'file' => 'ting_search_carousel.pages.inc',
     'type' => MENU_CALLBACK,
@@ -23,7 +24,7 @@ function ting_search_carousel_menu() {
     'description' => 'Manage content for frontpage carousel.',
     'page callback' => 'ting_search_carousel_admin_page',
     'page arguments' => array(),
-    'access arguments' => array('configure carousel'),
+    'access arguments' => array('access administration pages'),
     'file' => 'ting_search_carousel.admin.inc',
   );
 
@@ -39,25 +40,13 @@ function ting_search_carousel_menu() {
     'description' => 'Manage settings for the display of frontpage carousel',
     'page callback' => 'drupal_get_form',
     'page arguments' => array('ting_search_carousel_settings_admin_form'),
-    'access arguments' => array('configure carousel'),
+    'access arguments' => array('access administration pages'),
     'file' => 'ting_search_carousel.admin.inc',
     'type' => MENU_LOCAL_TASK,
     'weight' => 0,
   );
 
   return $items;
-}
-
-/**
- * Implements hook_permission().
- */
-function ting_search_carousel_permission() {
-  return array(
-    'configure carousel' => array(
-      'title' => t('Configure carousel'),
-      'description' => t('Allow role to configure carousel.'),
-    ),
-  );
 }
 
 /**
@@ -77,31 +66,6 @@ function ting_search_carousel_theme($existing, $type, $theme, $path) {
     'ting_search_carousel_admin_form' => array(
       'render element' => 'form',
     ),
-  );
-}
-
-/**
- * Implements hook_block_info().
- */
-function ting_search_carousel_block_info() {
-  return array(
-    'ting_search_carousel' => array(
-      'info' => 'Ting search carousel, block',
-    ),
-  );
-}
-
-/**
- * Implements hook_block_view().
- *
- * We ignore delta in this block view, as we only have one block.
- */
-function ting_search_carousel_block_view($delta) {
-  return array(
-    'content' => theme('ting_search_carousel', array(
-        'searches' => variable_get('ting_carousel_search_queries', array()),
-        'tab_position' => variable_get('ting_search_carousel_tabs_position'),
-    )),
   );
 }
 
